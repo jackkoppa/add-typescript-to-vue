@@ -1,6 +1,17 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <label for="city">City</label>
+    <input type="text" id="city" placeholder="Enter City" v-model="input.city">
+    <label for="state">State</label>
+    <select name="state" id="state" v-model="input.state">
+      <option
+        v-for="state in states"
+        :key="state.abbreviation"
+        :value="state.abbreviation"
+      >{{ state.abbreviation }}</option>
+    </select>
+    <button @click="getUsage">Get City Data</button>
     <ul>
       <li v-for="city in cities" :key="city.slug">
         {{ city.name }}
@@ -14,6 +25,7 @@
 <script>
 import { getEnergyUsageByCityAndState } from "@/api";
 import { capitalizeFirstLetter } from "@/mixins/utilities";
+import { listOfStates } from "@/mixins/states";
 
 export default {
   name: "HelloWorld",
@@ -21,24 +33,37 @@ export default {
     msg: String
   },
   data() {
-    return { cities: [] };
+    return {
+      cities: [],
+      input: {
+        city: "",
+        state: ""
+      },
+      states: listOfStates
+    };
   },
-  mounted() {
-    getEnergyUsageByCityAndState("WAshington", "DC").then(response => {
-      if (response.data != null) {
-        const { inputs, result } = response.data;
-        const lowerCaseCity = inputs.city.toLowerCase();
-        const upperCaseState = inputs.state_abbr.toUpperCase();
-        const capitalizedCity = capitalizeFirstLetter(lowerCaseCity);
-        const city = {
-          slug: `${lowerCaseCity}-${upperCaseState}`,
-          name: capitalizedCity,
-          state: upperCaseState,
-          usage: result[capitalizedCity]
-        };
-        this.cities.push(city);
-      }
-    });
+  methods: {
+    getUsage() {
+      getEnergyUsageByCityAndState(this.input.city, this.input.state).then(
+        response => {
+          if (response.data != null) {
+            const { inputs, result } = response.data;
+            const lowerCaseCity = inputs.city.toLowerCase();
+            const upperCaseState = inputs.state_abbr.toUpperCase();
+            const capitalizedCity = capitalizeFirstLetter(lowerCaseCity);
+            const city = {
+              slug: `${lowerCaseCity}-${upperCaseState}`,
+              name: capitalizedCity,
+              state: upperCaseState,
+              usage: result[capitalizedCity]
+            };
+            this.cities.push(city);
+            this.input.city = "";
+            this.input.state = "";
+          }
+        }
+      );
+    }
   }
 };
 </script>
