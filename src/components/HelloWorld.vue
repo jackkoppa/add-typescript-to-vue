@@ -24,7 +24,7 @@
 
 <script>
 import { getEnergyUsageByCityAndState } from "@/api";
-import { capitalizeFirstLetter } from "@/mixins/utilities";
+import { capitalizeAllWords } from "@/mixins/utilities";
 import { listOfStates } from "@/mixins/states";
 
 export default {
@@ -50,7 +50,7 @@ export default {
             const { inputs, result } = response.data;
             const lowerCaseCity = inputs.city.toLowerCase();
             const upperCaseState = inputs.state_abbr.toUpperCase();
-            const capitalizedCity = capitalizeFirstLetter(lowerCaseCity);
+            const capitalizedCity = capitalizeAllWords(lowerCaseCity);
             const city = {
               slug: `${lowerCaseCity}-${upperCaseState}`,
               name: capitalizedCity,
