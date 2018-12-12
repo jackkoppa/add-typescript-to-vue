@@ -14,7 +14,14 @@ before_script:
 script:
   - npm run test:unit
   - npm run build
-  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then npm run deploy; fi
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: master
 
 notifications:
   email:
