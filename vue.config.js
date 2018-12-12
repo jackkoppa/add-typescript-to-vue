@@ -1,6 +1,4 @@
 module.exports = {
   baseUrl:
-    process.env.NODE_ENV === "production"
-      ? "https://jackkoppa.github.io/add-typescript-to-vue/"
-      : "/"
+    process.env.NODE_ENV === "production" ? "/add-typescript-to-vue/" : "/"
 };
