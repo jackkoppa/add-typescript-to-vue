@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "axios": "^0.18.0",
