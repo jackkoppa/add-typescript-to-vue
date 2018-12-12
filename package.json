@@ -40,7 +40,52 @@
       "plugin:vue/essential",
       "@vue/prettier"
     ],
-    "rules": {},
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "printWidth": 90,
+          "useTabs": true,
+          "semi": false,
+          "singleQuote": true,
+          "trailingComma": "none",
+          "bracketSpacing": true,
+          "jsxBracketSameLine": false,
+          "arrowParens": "avoid",
+          "proseWrap": "preserve"
+        }
+      ],
+      "indent": [
+        "warn",
+        "tab"
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "max-len": [
+        "warn",
+        90,
+        {
+          "tabWidth": 4,
+          "ignoreComments": true,
+          "ignoreUrls": true,
+          "ignoreStrings": true
+        }
+      ],
+      "max-lines": [
+        "warn",
+        500
+      ],
+      "quotes": [
+        "warn",
+        "single"
+      ],
+      "semi": [
+        "warn",
+        "never"
+      ]
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

@@ -6,21 +6,21 @@
 </template>
 
 <script>
-import Search from "@/components/Search.vue";
+import Search from '@/components/Search.vue'
 
 export default {
-  name: "home",
-  components: {
-    Search
-  }
-};
+	name: 'home',
+	components: {
+		Search
+	}
+}
 </script>
 
 <style lang="scss">
-@import "@/styles/_variables.scss";
+@import '@/styles/_variables.scss';
 
 .home__header {
-  max-width: 75%;
-  margin: $spacer * 2 auto;
+	max-width: 75%;
+	margin: $spacer * 2 auto;
 }
 </style>

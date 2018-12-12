@@ -11,20 +11,20 @@
 
 <style lang="scss">
 // Import global styles once, at app level
-@import "@/styles/global.scss";
+@import '@/styles/global.scss';
 
 #app {
-  text-align: center;
-  color: $cBlueGray;
+	text-align: center;
+	color: $cBlueGray;
 }
 #nav {
-  padding: $spacer/2;
-  a {
-    font-weight: bold;
-    color: $cBlueGray;
-    &.router-link-exact-active {
-      color: $cBrightGreen;
-    }
-  }
+	padding: $spacer/2;
+	a {
+		font-weight: bold;
+		color: $cBlueGray;
+		&.router-link-exact-active {
+			color: $cBrightGreen;
+		}
+	}
 }
 </style>

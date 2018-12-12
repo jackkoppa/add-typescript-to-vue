@@ -8,10 +8,10 @@
 </template>
 
 <style lang="scss">
-@import "@/styles/_variables.scss";
+@import '@/styles/_variables.scss';
 
 .about__header {
-  max-width: 75%;
-  margin: $spacer * 2 auto;
+	max-width: 75%;
+	margin: $spacer * 2 auto;
 }
 </style>
