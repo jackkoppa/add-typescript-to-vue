@@ -1,0 +1,19 @@
+@import './variables';
+
+html, body, * {
+    font-family: "Courier New", Courier, monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    font-size: $baseFontSize;
+}
+
+h1 {
+    font-size: $h1FontSize;
+}
+
+h3 {
+    font-size: $h3FontSize;
+}
