@@ -1,24 +1,64 @@
 <template>
-  <div class="search-result-chart">
-    <ul>
-      <li v-for="city in cities" :key="city.slug">
-        {{ city.name }}
-        {{ city.state }}
-        {{ calculateGhgPerCapita(city, 'residential') }}
-        {{ calculateGhgPerCapita(city, 'commercial') }}
-        {{ calculateGhgPerCapita(city, 'industrial') }}
-      </li>
-    </ul>
+  <div>
+    <h3>annual lbs of greenhouse gases (GHG) per capita</h3>
+    <transition-group name="search-result-chart" tag="ul">
+      <SearchResultChartItem
+        v-for="city in sortedCities"
+        class="search-result-chart__item"
+        :key="city.slug"
+        :city="city"
+        :cities-max-ghg="citiesMaxGhg"
+        :national-average-ghg="nationalAverageGhg"
+        @cityDeleted="deleteCity"
+      />
+      <SearchResultChartItem
+        v-if="nationalAverageGhg != null"
+        key="national"
+        :city="{}"
+        :cities-max-ghg="citiesMaxGhg"
+        :national-average-ghg="nationalAverageGhg"
+        :is-national-average="true"
+      />
+    </transition-group>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
+import SearchResultChartItem from "@/components/SearchResultChartItem";
+
 export default {
-  name: "Search",
+  name: "SearchResultChart",
+  components: {
+    SearchResultChartItem
+  },
   props: {
     cities: {
       type: Array,
       required: true
+    }
+  },
+  computed: {
+    ...mapGetters("national", ["getNationalResidentalAverageGhgPerCapita"]),
+    nationalAverageGhg() {
+      return this.getNationalResidentalAverageGhgPerCapita;
+    },
+    citiesWithGhg() {
+      return this.cities.map(city =>
+        Object.assign(city, {
+          ghg: this.calculateGhgPerCapita(city, "residential")
+        })
+      );
+    },
+    citiesMaxGhg() {
+      const ghgValues = this.citiesWithGhg.map(city => city.ghg);
+      ghgValues.push(this.nationalAverageGhg);
+      return Math.max(...ghgValues);
+    },
+    sortedCities() {
+      const citiesWithGhg = Array.from(this.citiesWithGhg);
+      return citiesWithGhg.sort((cityA, cityB) => cityA.ghg - cityB.ghg);
     }
   },
   methods: {
@@ -30,11 +70,25 @@ export default {
       const ghgLbsPerCapita = Math.round(
         (electricityGhgLbs + gasGhgLbs) / population
       );
-      return `${ghgLbsPerCapita} lbs of ${sector} greenhouse gases, per capita`;
+      return ghgLbsPerCapita;
+    },
+    deleteCity(slug) {
+      this.$emit("cityDeleted", slug);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.search-result-chart__item {
+  transition: all 1s;
+}
+.search-result-chart-enter,
+.search-result-chart-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.search-result-chart-leave-active {
+  position: absolute;
+}
 </style>

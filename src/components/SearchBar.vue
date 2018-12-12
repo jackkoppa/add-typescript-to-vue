@@ -7,7 +7,7 @@
         id="city"
         class="form-control__input"
         :placeholder="placeholder"
-        v-model="input.city"
+        v-model.trim="input.city"
         @keyup.enter="attemptSearch"
         @input="isValidInput"
       >
@@ -37,11 +37,11 @@
 
 <script>
 import { capitalizeAllWords } from "@/mixins/utilities";
-import { getEnergyUsageByCityAndState } from "@/api";
+import { fetchEnergyUsageByCityAndState } from "@/api";
 import { listOfStates } from "@/mixins/states";
 
 export default {
-  name: "Search",
+  name: "SearchBar",
   props: {
     cities: {
       type: Array,
@@ -63,7 +63,7 @@ export default {
   methods: {
     attemptSearch() {
       if (this.isValidSubmit()) {
-        getEnergyUsageByCityAndState(this.input.city, this.input.state)
+        fetchEnergyUsageByCityAndState(this.input.city, this.input.state)
           .then(response => {
             const cityResponse = this.generateCityResponse(response);
             if (cityResponse) {
@@ -85,6 +85,7 @@ export default {
         this.errorMessage = "";
         return true;
       }
+      this.input.city = this.input.city.trim();
       if (!this.input.city || !this.input.state) {
         this.errorMessage = "Please enter a city & state";
         return false;
