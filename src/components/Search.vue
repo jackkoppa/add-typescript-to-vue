@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 import SearchBar from "@/components/SearchBar";
 import SearchResultChart from "@/components/SearchResultChart";
@@ -29,20 +29,22 @@ export default {
     };
   },
   computed: {
-    ...mapState("national", ["nationalAverages"]),
     ...mapGetters("national", ["nationalAverageGhg"])
   },
   watch: {
     nationalAverageGhg() {
+      this.addNationalAverageToCities();
+    }
+  },
+  methods: {
+    ...mapActions("national", ["fetchNationalAverages"]),
+    addNationalAverageToCities() {
       if (!this.cities.find(city => city.slug === "national")) {
         this.cities.push(
           Object.assign(defaultNationalCity, { ghg: this.nationalAverageGhg })
         );
       }
-    }
-  },
-  methods: {
-    ...mapActions("national", ["fetchNationalAverages"]),
+    },
     addCity(newCityResponse) {
       this.cities.push(newCityResponse);
     },
@@ -51,8 +53,10 @@ export default {
     }
   },
   mounted() {
-    if (this.nationalAverages == null) {
+    if (this.nationalAverageGhg == null) {
       this.fetchNationalAverages();
+    } else {
+      this.addNationalAverageToCities();
     }
   }
 };
