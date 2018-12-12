@@ -80,6 +80,7 @@ export default {
 			}
 		},
 		isValidInput() {
+			const correctStateLength = 2;
 			if (!this.submitAttempted) {
 				this.errorMessage = ''
 				return true
@@ -89,7 +90,7 @@ export default {
 				this.errorMessage = 'Please enter a city & state'
 				return false
 			}
-			if (this.input.state.length !== 2) {
+			if (this.input.state.length !== correctStateLength) {
 				this.errorMessage = 'Please enter a valid state'
 				return false
 			}
@@ -125,7 +126,7 @@ export default {
 					return {
 						slug,
 						name: capitalizedCity,
-						state: state,
+						state,
 						ghg: calculateGhgPerCapita(cityResponse)
 					}
 				}
@@ -145,7 +146,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/styles/_variables.scss';
+@import "@/styles/_variables.scss";
 
 .search-bar {
 	display: flex;

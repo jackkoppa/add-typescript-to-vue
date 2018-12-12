@@ -3,6 +3,7 @@ import { fetchNationalAverages } from '@/api'
 // TODO: Further test exact calculations for power <--> greenhouse gas ratios
 
 // Average of 3 most observed ratios in testing responses: 1704.9, 1339.0, 1498.4
+// tslint:disable-next-line
 const lbsGhgPerMegaWattHourElectricity = (1704.9 + 1339.0 + 1498.4) / 3
 
 // Consistent across all responses
@@ -13,15 +14,15 @@ export const state = {
 }
 
 export const getters = {
-	nationalAverageGhg(state) {
+	nationalAverageGhg(currentState) {
 		// Get the average national usage of electricity & gas, per capita
 		if (state.nationalAverages == null) {
 			return null
 		}
 		const megaWattHoursElectricityPerCapita =
-			state.nationalAverages.residential.elec_mwh_per_capita
+			currentState.nationalAverages.residential.elec_mwh_per_capita
 		const thousandCubicFeetGasPerCapita =
-			state.nationalAverages.residential.gas_mcf_per_capita
+			currentState.nationalAverages.residential.gas_mcf_per_capita
 
 		// Determine the average pounds of greenhouse gas emissions, from electricity & gas
 		// Using the constants defined above
@@ -45,8 +46,8 @@ export const actions = {
 }
 
 export const mutations = {
-	setNationalAverages(state, nationalAverages) {
-		state.nationalAverages = nationalAverages
+	setNationalAverages(currentState, nationalAverages) {
+		currentState.nationalAverages = nationalAverages
 	}
 }
 
