@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 import SearchBar from "@/components/SearchBar";
 import SearchResultChart from "@/components/SearchResultChart";
 
@@ -20,9 +22,18 @@ export default {
       cities: []
     };
   },
+  computed: {
+    ...mapState("national", ["nationalAverages"])
+  },
   methods: {
+    ...mapActions("national", ["fetchNationalAverages"]),
     addCity(newCityResponse) {
       this.cities.push(newCityResponse);
+    }
+  },
+  mounted() {
+    if (this.nationalAverages == null) {
+      this.fetchNationalAverages();
     }
   }
 };

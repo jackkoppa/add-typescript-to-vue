@@ -37,7 +37,7 @@
 
 <script>
 import { capitalizeAllWords } from "@/mixins/utilities";
-import { getEnergyUsageByCityAndState } from "@/api";
+import { fetchEnergyUsageByCityAndState } from "@/api";
 import { listOfStates } from "@/mixins/states";
 
 export default {
@@ -63,7 +63,7 @@ export default {
   methods: {
     attemptSearch() {
       if (this.isValidSubmit()) {
-        getEnergyUsageByCityAndState(this.input.city, this.input.state)
+        fetchEnergyUsageByCityAndState(this.input.city, this.input.state)
           .then(response => {
             const cityResponse = this.generateCityResponse(response);
             if (cityResponse) {

@@ -8,17 +8,26 @@
         {{ calculateGhgPerCapita(city, 'commercial') }}
         {{ calculateGhgPerCapita(city, 'industrial') }}
       </li>
+      <li>{{ nationalAverage }}</li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "SearchResultChart",
   props: {
     cities: {
       type: Array,
       required: true
+    }
+  },
+  computed: {
+    ...mapGetters("national", ["getNationalResidentalAverageGhgPerCapita"]),
+    nationalAverage() {
+      return this.getNationalResidentalAverageGhgPerCapita;
     }
   },
   methods: {
