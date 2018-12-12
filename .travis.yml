@@ -1,0 +1,28 @@
+#.travis.yml
+
+language: node_js
+node_js:
+  - "10.14"
+
+branches:
+  only:
+    - master
+
+before_script:
+  - npm install
+
+script:
+  - npm run test:unit
+  - npm run build
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: master
+
+notifications:
+  email:
+    on_failure: change
