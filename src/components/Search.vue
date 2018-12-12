@@ -6,10 +6,16 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapGetters, mapState, mapActions } from "vuex";
 
 import SearchBar from "@/components/SearchBar";
 import SearchResultChart from "@/components/SearchResultChart";
+
+const defaultNationalCity = {
+  slug: "national",
+  name: "National Average",
+  ghg: null
+};
 
 export default {
   name: "Search",
@@ -23,7 +29,17 @@ export default {
     };
   },
   computed: {
-    ...mapState("national", ["nationalAverages"])
+    ...mapState("national", ["nationalAverages"]),
+    ...mapGetters("national", ["nationalAverageGhg"])
+  },
+  watch: {
+    nationalAverageGhg() {
+      if (!this.cities.find(city => city.slug === "national")) {
+        this.cities.push(
+          Object.assign(defaultNationalCity, { ghg: this.nationalAverageGhg })
+        );
+      }
+    }
   },
   methods: {
     ...mapActions("national", ["fetchNationalAverages"]),

@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { calculateGhgPerCapita } from "@/mixins/calculation";
 import { capitalizeAllWords } from "@/mixins/utilities";
 import { fetchEnergyUsageByCityAndState } from "@/api";
 import { listOfStates } from "@/mixins/states";
@@ -123,11 +124,12 @@ export default {
       if (response.data != null) {
         const { capitalizedCity, state, slug } = this.generateCityStateSlug();
         if (response.data.result && response.data.result[capitalizedCity]) {
+          const cityResponse = response.data.result[capitalizedCity];
           return {
             slug,
             name: capitalizedCity,
             state: state,
-            energyUsage: response.data.result[capitalizedCity]
+            ghg: calculateGhgPerCapita(cityResponse)
           };
         }
       }
