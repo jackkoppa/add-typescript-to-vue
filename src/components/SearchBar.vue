@@ -1,30 +1,37 @@
 <template>
   <div class="search-bar">
-    <label for="city">City</label>
-    <input
-      type="text"
-      id="city"
-      placeholder="Enter City"
-      v-model="input.city"
-      @keyup.enter="attemptSearch"
-      @input="isValidInput"
-    >
-    <label for="state">State</label>
-    <select
-      name="state"
-      id="state"
-      v-model="input.state"
-      @change="isValidInput"
-      @keyup.enter="attemptSearch"
-    >
-      <option
-        v-for="state in states"
-        :key="state.abbreviation"
-        :value="state.abbreviation"
-      >{{ state.abbreviation }}</option>
-    </select>
-    <button @click="attemptSearch">Get City Data</button>
-    <span v-if="errorMessage">{{ errorMessage }}</span>
+    <div class="form-control">
+      <label class="form-control__label" for="city">City</label>
+      <input
+        type="text"
+        id="city"
+        class="form-control__input"
+        :placeholder="placeholder"
+        v-model="input.city"
+        @keyup.enter="attemptSearch"
+        @input="isValidInput"
+      >
+    </div>
+    <div class="form-control">
+      <label class="form-control__label" for="state">State</label>
+      <select
+        name="state"
+        id="state"
+        class="form-control__select"
+        v-model="input.state"
+        @change="isValidInput"
+        @keyup.enter="attemptSearch"
+      >
+        <option
+          v-for="state in states"
+          :key="state.abbreviation"
+          :value="state.abbreviation"
+        >{{ state.abbreviation }}</option>
+      </select>
+    </div>
+    <button class="form-button" @click="attemptSearch">Get Emissions Data</button>
+    <br>
+    <span class="error-message" v-if="errorMessage">{{ errorMessage }}</span>
   </div>
 </template>
 
@@ -48,6 +55,7 @@ export default {
         state: ""
       },
       states: listOfStates,
+      placeholder: "Enter City",
       errorMessage: "",
       submitAttempted: false
     };
@@ -136,6 +144,50 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
+@import "@/styles/_variables.scss";
+
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form-control {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: $baseFontSize;
+
+  &__label {
+    padding: $spacer/2 0;
+    flex: 1 0 100%;
+    text-align: left;
+  }
+
+  &__input {
+    font-size: $baseFontSize;
+    height: $baseFontSize + $spacer;
+    padding: 0 $spacer/2;
+  }
+
+  &__select {
+    font-size: $baseFontSize;
+  }
+}
+
+.form-button {
+  font-size: $baseFontSize;
+  padding: $spacer/2 $spacer;
+  align-self: flex-end;
+  margin-top: $spacer;
+}
+
+.error-message {
+  color: $cDarkRed;
+  display: block;
+  font-weight: bold;
+  padding: $spacer;
+  flex: 1 0 100%;
+}
 </style>
