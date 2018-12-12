@@ -17,6 +17,7 @@
         {{ city.name }}
         {{ city.state }}
         {{ city.usage.commercial.num_establishments }}
+        {{ calculateGhgPerCapita(city, 'residential') }}
       </li>
     </ul>
   </div>
@@ -63,6 +64,16 @@ export default {
           }
         }
       );
+    },
+    calculateGhgPerCapita(city, sector) {
+      const population = city.usage.residential.total_pop;
+      const sectorUsage = city.usage[sector];
+      const electricityGhgLbs = sectorUsage["elec_lb_ghg"];
+      const gasGhgLbs = sectorUsage["gas_lb_ghg"];
+      const ghgLbsPerCapita = Math.round(
+        (electricityGhgLbs + gasGhgLbs) / population
+      );
+      return `${ghgLbsPerCapita} lbs of ${sector} greenhouse gases, per capita`;
     }
   }
 };
