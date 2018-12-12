@@ -4,7 +4,6 @@
       <li v-for="city in cities" :key="city.slug">
         {{ city.name }}
         {{ city.state }}
-        {{ city.usage.commercial.num_establishments }}
         {{ calculateGhgPerCapita(city, 'residential') }}
         {{ calculateGhgPerCapita(city, 'commercial') }}
         {{ calculateGhgPerCapita(city, 'industrial') }}
@@ -24,8 +23,8 @@ export default {
   },
   methods: {
     calculateGhgPerCapita(city, sector) {
-      const population = city.usage.residential.total_pop;
-      const sectorUsage = city.usage[sector];
+      const population = city.energyUsage.residential.total_pop;
+      const sectorUsage = city.energyUsage[sector];
       const electricityGhgLbs = sectorUsage["elec_lb_ghg"];
       const gasGhgLbs = sectorUsage["gas_lb_ghg"];
       const ghgLbsPerCapita = Math.round(
