@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "Search",
+  name: "SearchResultChart",
   props: {
     cities: {
       type: Array,
