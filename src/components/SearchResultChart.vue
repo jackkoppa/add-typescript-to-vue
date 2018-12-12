@@ -8,7 +8,6 @@
         :key="city.slug"
         :city="city"
         :cities-max-ghg="citiesMaxGhg"
-        :national-average-ghg="nationalAverageGhg"
         @cityDeleted="deleteCity"
       />
       <SearchResultChartItem
@@ -16,7 +15,6 @@
         key="national"
         :city="{}"
         :cities-max-ghg="citiesMaxGhg"
-        :national-average-ghg="nationalAverageGhg"
         :is-national-average="true"
       />
     </transition-group>
@@ -65,8 +63,8 @@ export default {
     calculateGhgPerCapita(city, sector) {
       const population = city.energyUsage.residential.total_pop;
       const sectorUsage = city.energyUsage[sector];
-      const electricityGhgLbs = sectorUsage["elec_lb_ghg"];
-      const gasGhgLbs = sectorUsage["gas_lb_ghg"];
+      const electricityGhgLbs = sectorUsage.elec_lb_ghg;
+      const gasGhgLbs = sectorUsage.gas_lb_ghg;
       const ghgLbsPerCapita = Math.round(
         (electricityGhgLbs + gasGhgLbs) / population
       );

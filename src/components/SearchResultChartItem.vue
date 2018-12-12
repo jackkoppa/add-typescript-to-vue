@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 const maxWidth = "80vw";
 
 export default {
@@ -22,10 +24,6 @@ export default {
       type: Number,
       required: true
     },
-    nationalAverageGhg: {
-      type: Number,
-      required: true
-    },
     isNationalAverage: {
       type: Boolean,
       required: false,
@@ -33,6 +31,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters("national", ["getNationalResidentalAverageGhgPerCapita"]),
+    nationalAverageGhg() {
+      return this.getNationalResidentalAverageGhgPerCapita;
+    },
     generateClass() {
       if (this.isNationalAverage) {
         return "";
