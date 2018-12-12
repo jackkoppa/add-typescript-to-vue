@@ -18,6 +18,8 @@
         {{ city.state }}
         {{ city.usage.commercial.num_establishments }}
         {{ calculateGhgPerCapita(city, 'residential') }}
+        {{ calculateGhgPerCapita(city, 'commercial') }}
+        {{ calculateGhgPerCapita(city, 'industrial') }}
       </li>
     </ul>
   </div>
