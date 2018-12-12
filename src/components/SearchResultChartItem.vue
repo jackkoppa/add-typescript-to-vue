@@ -2,7 +2,7 @@
   <li class="search-result-chart-item" :class="generateClass" :style="generateStyle">
     <span class="item-label">{{ label }}</span>
     <span class="item-ghg">{{ displayGhg }}</span>
-    <span class="delete-button" @click="deleteCity" v-if="!isNationalAverage">
+    <span class="delete-button" @click="deleteCity" v-if="!isNational">
       <span>X</span>
     </span>
   </li>
@@ -10,6 +10,11 @@
 
 <script>
 import { mapGetters } from "vuex";
+
+import {
+  calculatedPercentOfMax,
+  calculatedPercentDifferenceFromNational
+} from "@/mixins/calculation";
 
 const maxWidth = "80vw";
 
@@ -31,16 +36,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("national", ["getNationalResidentalAverageGhgPerCapita"]),
-    nationalAverageGhg() {
-      return this.getNationalResidentalAverageGhgPerCapita;
-    },
+    ...mapGetters("national", ["nationalAverageGhg"]),
     generateClass() {
-      if (this.isNationalAverage) {
-        return "";
-      }
       const signficant = 0.1;
-      const percent = this.calculatedPercentDifferenceFromNational;
+      const percent = calculatedPercentDifferenceFromNational(
+        this.city,
+        this.nationalAverageGhg
+      );
       if (percent < -signficant) {
         return "significantly-below-average";
       }
@@ -56,33 +58,24 @@ export default {
       return "";
     },
     generateStyle() {
-      return { width: `calc(${maxWidth} * ${this.calculatedPercentOfMax})` };
+      return {
+        width: `calc(${maxWidth} * ${calculatedPercentOfMax(
+          this.city,
+          this.citiesMaxGhg
+        )})`
+      };
     },
     label() {
-      if (this.isNationalAverage) {
-        return "National Average";
+      if (this.city.state) {
+        return `${this.city.name}, ${this.city.state}`;
       }
-      return `${this.city.name}, ${this.city.state}`;
+      return this.city.name;
     },
     displayGhg() {
-      if (this.isNationalAverage) {
-        return `${this.nationalAverageGhg} lbs`;
-      }
       return `${this.city.ghg} lbs`;
     },
-    calculatedPercentOfMax() {
-      if (this.isNationalAverage) {
-        return this.nationalAverageGhg / this.citiesMaxGhg;
-      }
-      return this.city.ghg / this.citiesMaxGhg;
-    },
-    calculatedPercentDifferenceFromNational() {
-      if (this.isNationalAverage) {
-        return 0;
-      }
-      return (
-        (this.city.ghg - this.nationalAverageGhg) / this.nationalAverageGhg
-      );
+    isNational() {
+      return this.city.slug === "national";
     }
   },
   methods: {

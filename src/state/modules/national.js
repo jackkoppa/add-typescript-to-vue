@@ -13,7 +13,7 @@ export const state = {
 };
 
 export const getters = {
-  getNationalResidentalAverageGhgPerCapita(state) {
+  nationalAverageGhg(state) {
     // Get the average national usage of electricity & gas, per capita
     if (state.nationalAverages == null) {
       return null;

@@ -10,13 +10,6 @@
         :cities-max-ghg="citiesMaxGhg"
         @cityDeleted="deleteCity"
       />
-      <SearchResultChartItem
-        v-if="nationalAverageGhg != null"
-        key="national"
-        :city="{}"
-        :cities-max-ghg="citiesMaxGhg"
-        :is-national-average="true"
-      />
     </transition-group>
   </div>
 </template>
@@ -38,38 +31,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("national", ["getNationalResidentalAverageGhgPerCapita"]),
-    nationalAverageGhg() {
-      return this.getNationalResidentalAverageGhgPerCapita;
-    },
-    citiesWithGhg() {
-      return this.cities.map(city =>
-        Object.assign(city, {
-          ghg: this.calculateGhgPerCapita(city, "residential")
-        })
-      );
-    },
+    ...mapGetters("national", ["nationalAverageGhg"]),
     citiesMaxGhg() {
-      const ghgValues = this.citiesWithGhg.map(city => city.ghg);
-      ghgValues.push(this.nationalAverageGhg);
+      const ghgValues = this.cities.map(city => city.ghg);
       return Math.max(...ghgValues);
     },
     sortedCities() {
-      const citiesWithGhg = Array.from(this.citiesWithGhg);
-      return citiesWithGhg.sort((cityA, cityB) => cityA.ghg - cityB.ghg);
+      const citiesClone = Array.from(this.cities);
+      return citiesClone.sort((cityA, cityB) => cityA.ghg - cityB.ghg);
     }
   },
   methods: {
-    calculateGhgPerCapita(city, sector) {
-      const population = city.energyUsage.residential.total_pop;
-      const sectorUsage = city.energyUsage[sector];
-      const electricityGhgLbs = sectorUsage.elec_lb_ghg;
-      const gasGhgLbs = sectorUsage.gas_lb_ghg;
-      const ghgLbsPerCapita = Math.round(
-        (electricityGhgLbs + gasGhgLbs) / population
-      );
-      return ghgLbsPerCapita;
-    },
     deleteCity(slug) {
       this.$emit("cityDeleted", slug);
     }
