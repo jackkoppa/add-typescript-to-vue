@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <SearchBar :cities="cities" @cityAdded="addCity"/>
-    <SearchResultChart :cities="cities"/>
+    <SearchResultChart :cities="cities" @cityDeleted="deleteCity"/>
   </div>
 </template>
 
@@ -29,6 +29,9 @@ export default {
     ...mapActions("national", ["fetchNationalAverages"]),
     addCity(newCityResponse) {
       this.cities.push(newCityResponse);
+    },
+    deleteCity(slug) {
+      this.cities = this.cities.filter(city => city.slug !== slug);
     }
   },
   mounted() {

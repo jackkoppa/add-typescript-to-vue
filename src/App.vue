@@ -23,7 +23,7 @@
     font-weight: bold;
     color: $cBlueGray;
     &.router-link-exact-active {
-      color: $cGreen;
+      color: $cBrightGreen;
     }
   }
 }

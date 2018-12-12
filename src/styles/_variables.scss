@@ -1,9 +1,22 @@
-$cGreen: #42b983;
-$cBlueGray: #2c3e50;
+$cBrightGreen: #42b983;
+$cDullGreen: #dce775;
+$cDullRed: #ffab91;
 $cDarkRed: #8c0032;
+
+$cBlueGray: #2c3e50;
+$cBaseGray: #90a4ae;
+
 
 $spacer: 15px;
 
 $baseFontSize: 16px;
 $h1FontSize: 32px;
 $h3FontSize: 20px;
+
+$break-mobile: 600px;
+
+@mixin sm() {
+    @media only screen and (min-width: $break-mobile) {
+		@content;
+	}
+}
