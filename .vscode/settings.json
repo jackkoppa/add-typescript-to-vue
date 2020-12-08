@@ -1,16 +1,6 @@
 {
     "editor.insertSpaces": false,
-    "eslint.validate": [
-        {
-            "language": "vue",
-            "autoFix": true
-        },
-        {
-            "language": "javascript",
-            "autoFix": true
-        }
-    ],
-    "eslint.autoFixOnSave": true,
+    "editor.formatOnSave": true,
     "vetur.format.options.tabSize": 4,
     "vetur.format.options.useTabs": true,
     "vetur.format.defaultFormatter.js": "vscode-typescript",

@@ -7,13 +7,14 @@
 
 <script>
 import Search from '@/components/Search.vue'
+import Vue from 'vue'
 
-export default {
-	name: 'home',
+export default Vue.extend({
+  name: 'home',
 	components: {
 		Search
 	}
-}
+})
 </script>
 
 <style lang="scss">
